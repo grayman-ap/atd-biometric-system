@@ -7,14 +7,27 @@ import (
 )
 
 type Querier interface {
+	CreateAttendance(ctx context.Context, arg CreateAttendanceParams) (Attendance, error)
+	CreateCourse(ctx context.Context, arg CreateCourseParams) (Course, error)
+	CreateDepartment(ctx context.Context, arg CreateDepartmentParams) (Department, error)
 	CreateStudent(ctx context.Context, arg CreateStudentParams) (Student, error)
 	CreateTutor(ctx context.Context, arg CreateTutorParams) (Tutor, error)
+	DeleteCourse(ctx context.Context, courseCode string) error
+	DeleteDepartment(ctx context.Context, departmentID string) error
 	DeleteStudent(ctx context.Context, studentID string) error
 	DeleteTutor(ctx context.Context, staffID string) error
+	GetAttendance(ctx context.Context, limit int32) (Attendance, error)
+	GetCourse(ctx context.Context) (Course, error)
+	GetDepartment(ctx context.Context, departmentID string) (Department, error)
 	GetStudent(ctx context.Context, studentID string) (Student, error)
 	GetTutor(ctx context.Context, staffID string) (Tutor, error)
+	ListCourse(ctx context.Context, arg ListCourseParams) ([]Course, error)
+	ListDepartments(ctx context.Context, arg ListDepartmentsParams) ([]Department, error)
 	ListStudents(ctx context.Context, arg ListStudentsParams) ([]Student, error)
 	ListTutors(ctx context.Context, arg ListTutorsParams) ([]Tutor, error)
+	UpdateAttendance(ctx context.Context, arg UpdateAttendanceParams) (Attendance, error)
+	UpdateCourse(ctx context.Context, arg UpdateCourseParams) (Course, error)
+	UpdateDepartment(ctx context.Context, arg UpdateDepartmentParams) (Department, error)
 	UpdateStudent(ctx context.Context, arg UpdateStudentParams) (Student, error)
 	UpdateTutor(ctx context.Context, arg UpdateTutorParams) (Tutor, error)
 }

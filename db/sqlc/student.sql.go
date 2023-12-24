@@ -12,17 +12,19 @@ INSERT INTO student (
     student_id,
     first_name,
     last_name,
-    email
+    email,
+    department
 ) VALUES (
-    $1, $2, $3, $4
-) RETURNING student_id, first_name, last_name, email, created_at
+    $1, $2, $3, $4, $5
+) RETURNING student_id, first_name, last_name, email, department, created_at
 `
 
 type CreateStudentParams struct {
-	StudentID string `json:"student_id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Email     string `json:"email"`
+	StudentID  string `json:"student_id"`
+	FirstName  string `json:"first_name"`
+	LastName   string `json:"last_name"`
+	Email      string `json:"email"`
+	Department string `json:"department"`
 }
 
 func (q *Queries) CreateStudent(ctx context.Context, arg CreateStudentParams) (Student, error) {
@@ -31,6 +33,7 @@ func (q *Queries) CreateStudent(ctx context.Context, arg CreateStudentParams) (S
 		arg.FirstName,
 		arg.LastName,
 		arg.Email,
+		arg.Department,
 	)
 	var i Student
 	err := row.Scan(
@@ -38,6 +41,7 @@ func (q *Queries) CreateStudent(ctx context.Context, arg CreateStudentParams) (S
 		&i.FirstName,
 		&i.LastName,
 		&i.Email,
+		&i.Department,
 		&i.CreatedAt,
 	)
 	return i, err
@@ -54,7 +58,7 @@ func (q *Queries) DeleteStudent(ctx context.Context, studentID string) error {
 }
 
 const getStudent = `-- name: GetStudent :one
-SELECT student_id, first_name, last_name, email, created_at FROM student
+SELECT student_id, first_name, last_name, email, department, created_at FROM student
 WHERE student_id = $1
 `
 
@@ -66,13 +70,14 @@ func (q *Queries) GetStudent(ctx context.Context, studentID string) (Student, er
 		&i.FirstName,
 		&i.LastName,
 		&i.Email,
+		&i.Department,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const listStudents = `-- name: ListStudents :many
-SELECT student_id, first_name, last_name, email, created_at FROM student 
+SELECT student_id, first_name, last_name, email, department, created_at FROM student 
 ORDER BY student_id
 LIMIT $1
 OFFSET $2
@@ -97,6 +102,7 @@ func (q *Queries) ListStudents(ctx context.Context, arg ListStudentsParams) ([]S
 			&i.FirstName,
 			&i.LastName,
 			&i.Email,
+			&i.Department,
 			&i.CreatedAt,
 		); err != nil {
 			return nil, err
@@ -114,16 +120,17 @@ func (q *Queries) ListStudents(ctx context.Context, arg ListStudentsParams) ([]S
 
 const updateStudent = `-- name: UpdateStudent :one
 UPDATE student
-SET first_name = $2, last_name = $3, email = $4
+SET first_name = $2, last_name = $3, email = $4, department = $5
 WHERE student_id = $1
-RETURNING student_id, first_name, last_name, email, created_at
+RETURNING student_id, first_name, last_name, email, department, created_at
 `
 
 type UpdateStudentParams struct {
-	StudentID string `json:"student_id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Email     string `json:"email"`
+	StudentID  string `json:"student_id"`
+	FirstName  string `json:"first_name"`
+	LastName   string `json:"last_name"`
+	Email      string `json:"email"`
+	Department string `json:"department"`
 }
 
 func (q *Queries) UpdateStudent(ctx context.Context, arg UpdateStudentParams) (Student, error) {
@@ -132,6 +139,7 @@ func (q *Queries) UpdateStudent(ctx context.Context, arg UpdateStudentParams) (S
 		arg.FirstName,
 		arg.LastName,
 		arg.Email,
+		arg.Department,
 	)
 	var i Student
 	err := row.Scan(
@@ -139,6 +147,7 @@ func (q *Queries) UpdateStudent(ctx context.Context, arg UpdateStudentParams) (S
 		&i.FirstName,
 		&i.LastName,
 		&i.Email,
+		&i.Department,
 		&i.CreatedAt,
 	)
 	return i, err

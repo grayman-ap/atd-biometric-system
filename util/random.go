@@ -30,3 +30,11 @@ func RandomDepartment() string {
 
 	return dept[rand.Intn(n)]
 }
+
+func RandomSchool() string {
+	school := []string{"SEET", "SET", "Agric", "SICT", "URP", "SLS", "SPS"}
+
+	n := len(school)
+
+	return school[rand.Intn(n)]
+}

@@ -16,35 +16,38 @@ type Attendance struct {
 }
 
 type Course struct {
-	ID         int64     `json:"id"`
-	Student    string    `json:"student"`
-	Tutor      string    `json:"tutor"`
-	CourseCode string    `json:"course_code"`
-	Location   string    `json:"location"`
-	Duration   time.Time `json:"duration"`
-	CreatedAt  time.Time `json:"created_at"`
+	CourseCode      string    `json:"course_code"`
+	Department      string    `json:"department"`
+	NumberOfStudent int64     `json:"number_of_student"`
+	CourseTitle     string    `json:"course_title"`
+	CourseUnit      string    `json:"course_unit"`
+	Venue           string    `json:"venue"`
+	StartTime       time.Time `json:"start_time"`
+	EndTime         time.Time `json:"end_time"`
+	TotalDuration   time.Time `json:"total_duration"`
+	CreatedAt       time.Time `json:"created_at"`
 }
 
 type Department struct {
-	ID             int64     `json:"id"`
-	DepartmentName string    `json:"department_name"`
-	Student        string    `json:"student"`
-	Tutor          string    `json:"tutor"`
-	CreatedAt      time.Time `json:"created_at"`
+	DepartmentID string    `json:"department_id"`
+	School       string    `json:"school"`
+	CreatedAt    time.Time `json:"created_at"`
 }
 
 type Student struct {
-	StudentID string    `json:"student_id"`
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	Email     string    `json:"email"`
-	CreatedAt time.Time `json:"created_at"`
+	StudentID  string    `json:"student_id"`
+	FirstName  string    `json:"first_name"`
+	LastName   string    `json:"last_name"`
+	Email      string    `json:"email"`
+	Department string    `json:"department"`
+	CreatedAt  time.Time `json:"created_at"`
 }
 
 type Tutor struct {
-	StaffID   string    `json:"staff_id"`
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	Email     string    `json:"email"`
-	CreatedAt time.Time `json:"created_at"`
+	StaffID    string    `json:"staff_id"`
+	FirstName  string    `json:"first_name"`
+	LastName   string    `json:"last_name"`
+	Email      string    `json:"email"`
+	Department string    `json:"department"`
+	CreatedAt  time.Time `json:"created_at"`
 }

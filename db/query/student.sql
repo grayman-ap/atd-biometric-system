@@ -3,9 +3,10 @@ INSERT INTO student (
     student_id,
     first_name,
     last_name,
-    email
+    email,
+    department
 ) VALUES (
-    $1, $2, $3, $4
+    $1, $2, $3, $4, $5
 ) RETURNING *;
 
 -- name: GetStudent :one
@@ -20,7 +21,7 @@ OFFSET $2;
 
 -- name: UpdateStudent :one
 UPDATE student
-SET first_name = $2, last_name = $3, email = $4
+SET first_name = $2, last_name = $3, email = $4, department = $5
 WHERE student_id = $1
 RETURNING *;
 
