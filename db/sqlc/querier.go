@@ -12,15 +12,17 @@ type Querier interface {
 	CreateDepartment(ctx context.Context, arg CreateDepartmentParams) (Department, error)
 	CreateStudent(ctx context.Context, arg CreateStudentParams) (Student, error)
 	CreateTutor(ctx context.Context, arg CreateTutorParams) (Tutor, error)
+	DeleteAttendance(ctx context.Context, id int64) error
 	DeleteCourse(ctx context.Context, courseCode string) error
 	DeleteDepartment(ctx context.Context, departmentID string) error
 	DeleteStudent(ctx context.Context, studentID string) error
 	DeleteTutor(ctx context.Context, staffID string) error
-	GetAttendance(ctx context.Context, limit int32) (Attendance, error)
-	GetCourse(ctx context.Context) (Course, error)
+	GetAttendance(ctx context.Context, id int64) (Attendance, error)
+	GetCourse(ctx context.Context, courseCode string) (Course, error)
 	GetDepartment(ctx context.Context, departmentID string) (Department, error)
 	GetStudent(ctx context.Context, studentID string) (Student, error)
 	GetTutor(ctx context.Context, staffID string) (Tutor, error)
+	ListAttendance(ctx context.Context, arg ListAttendanceParams) ([]Attendance, error)
 	ListCourse(ctx context.Context, arg ListCourseParams) ([]Course, error)
 	ListDepartments(ctx context.Context, arg ListDepartmentsParams) ([]Department, error)
 	ListStudents(ctx context.Context, arg ListStudentsParams) ([]Student, error)

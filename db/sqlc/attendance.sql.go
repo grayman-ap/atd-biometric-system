@@ -45,13 +45,23 @@ func (q *Queries) CreateAttendance(ctx context.Context, arg CreateAttendancePara
 	return i, err
 }
 
-const getAttendance = `-- name: GetAttendance :one
-SELECT id, student, course_code, mark_student, last_attendance, created_at FROM attendance
-WHERE id = 1 LIMIT $1
+const deleteAttendance = `-- name: DeleteAttendance :exec
+DELETE FROM attendance
+WHERE id = $1
 `
 
-func (q *Queries) GetAttendance(ctx context.Context, limit int32) (Attendance, error) {
-	row := q.db.QueryRowContext(ctx, getAttendance, limit)
+func (q *Queries) DeleteAttendance(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, deleteAttendance, id)
+	return err
+}
+
+const getAttendance = `-- name: GetAttendance :one
+SELECT id, student, course_code, mark_student, last_attendance, created_at FROM attendance
+WHERE id = $1
+`
+
+func (q *Queries) GetAttendance(ctx context.Context, id int64) (Attendance, error) {
+	row := q.db.QueryRowContext(ctx, getAttendance, id)
 	var i Attendance
 	err := row.Scan(
 		&i.ID,
@@ -62,6 +72,48 @@ func (q *Queries) GetAttendance(ctx context.Context, limit int32) (Attendance, e
 		&i.CreatedAt,
 	)
 	return i, err
+}
+
+const listAttendance = `-- name: ListAttendance :many
+SELECT id, student, course_code, mark_student, last_attendance, created_at FROM attendance
+ORDER BY id
+LIMIT $1
+OFFSET $2
+`
+
+type ListAttendanceParams struct {
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
+}
+
+func (q *Queries) ListAttendance(ctx context.Context, arg ListAttendanceParams) ([]Attendance, error) {
+	rows, err := q.db.QueryContext(ctx, listAttendance, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Attendance{}
+	for rows.Next() {
+		var i Attendance
+		if err := rows.Scan(
+			&i.ID,
+			&i.Student,
+			&i.CourseCode,
+			&i.MarkStudent,
+			&i.LastAttendance,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const updateAttendance = `-- name: UpdateAttendance :one

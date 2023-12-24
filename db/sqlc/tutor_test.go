@@ -11,11 +11,13 @@ import (
 )
 
 func createRandomTutor(t *testing.T) Tutor {
+	dept := createRandomDepartment(t)
 	arg := CreateTutorParams{
-		StaffID:   util.Random(8),
-		FirstName: util.Random(5),
-		LastName:  util.Random(5),
-		Email:     util.RandomEmail(),
+		StaffID:    util.Random(8),
+		FirstName:  util.Random(5),
+		LastName:   util.Random(5),
+		Email:      util.RandomEmail(),
+		Department: dept.DepartmentID,
 	}
 
 	tutor, err := testQueries.CreateTutor(context.Background(), arg)
@@ -71,12 +73,13 @@ func TestListTutor(t *testing.T) {
 
 func TestUpdateTutor(t *testing.T) {
 	tutor1 := createRandomTutor(t)
-
+	dept := createRandomDepartment(t)
 	arg := UpdateTutorParams{
-		StaffID:   tutor1.StaffID,
-		FirstName: "Peter",
-		LastName:  "Adeshina",
-		Email:     "peteradeshina3@futminna.com",
+		StaffID:    tutor1.StaffID,
+		FirstName:  "Peter",
+		LastName:   "Adeshina",
+		Email:      "peteradeshina3@futminna.com",
+		Department: dept.DepartmentID,
 	}
 	updatedStudent, err := testQueries.UpdateTutor(context.Background(), arg)
 	require.NoError(t, err)

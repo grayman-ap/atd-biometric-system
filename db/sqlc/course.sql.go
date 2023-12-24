@@ -73,11 +73,11 @@ func (q *Queries) DeleteCourse(ctx context.Context, courseCode string) error {
 
 const getCourse = `-- name: GetCourse :one
 SELECT course_code, department, number_of_student, course_title, course_unit, venue, start_time, end_time, total_duration, created_at FROM course
-WHERE course_code = 1
+WHERE course_code = $1
 `
 
-func (q *Queries) GetCourse(ctx context.Context) (Course, error) {
-	row := q.db.QueryRowContext(ctx, getCourse)
+func (q *Queries) GetCourse(ctx context.Context, courseCode string) (Course, error) {
+	row := q.db.QueryRowContext(ctx, getCourse, courseCode)
 	var i Course
 	err := row.Scan(
 		&i.CourseCode,
@@ -142,7 +142,7 @@ func (q *Queries) ListCourse(ctx context.Context, arg ListCourseParams) ([]Cours
 
 const updateCourse = `-- name: UpdateCourse :one
 UPDATE course
-SET department = $2, number_of_student = $3, course_title = $4, course_unit= $5, venue = $6, start_time = $7, end_time = $8
+SET course_code = $1, department = $2, number_of_student = $3, course_title = $4, course_unit= $5, venue = $6, start_time = $7, end_time = $8
 WHERE course_code = $1
 RETURNING course_code, department, number_of_student, course_title, course_unit, venue, start_time, end_time, total_duration, created_at
 `

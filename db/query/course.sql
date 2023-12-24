@@ -14,7 +14,7 @@ INSERT INTO course (
 
 -- name: GetCourse :one
 SELECT * FROM course
-WHERE course_code = 1;
+WHERE course_code = $1;
 
 -- name: ListCourse :many
 SELECT * FROM course 
@@ -24,7 +24,7 @@ OFFSET $2;
 
 -- name: UpdateCourse :one
 UPDATE course
-SET department = $2, number_of_student = $3, course_title = $4, course_unit= $5, venue = $6, start_time = $7, end_time = $8
+SET course_code = $1, department = $2, number_of_student = $3, course_title = $4, course_unit= $5, venue = $6, start_time = $7, end_time = $8
 WHERE course_code = $1
 RETURNING *;
 

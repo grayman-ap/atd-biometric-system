@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"math/rand"
 	"strings"
 )
@@ -37,4 +38,17 @@ func RandomSchool() string {
 	n := len(school)
 
 	return school[rand.Intn(n)]
+}
+
+func RandomCourseCode() string {
+
+	course := []string{fmt.Sprintf("IFT%d", RandomInt(3, 200)), fmt.Sprintf("SVG%d", RandomInt(3, 200)), fmt.Sprintf("STA%d", RandomInt(3, 200)), fmt.Sprintf("IFT%d", RandomInt(3, 200)), fmt.Sprintf("GEO%d", RandomInt(3, 200)), fmt.Sprintf("IFT%d", RandomInt(3, 200)), fmt.Sprintf("IFT%d", RandomInt(3, 200)), fmt.Sprintf("IFT%d", RandomInt(1, 200)), fmt.Sprintf("IFT%d", RandomInt(1, 200)), fmt.Sprintf("IFT%d", RandomInt(1, 200)), fmt.Sprintf("IFT%d", RandomInt(1, 200)), fmt.Sprintf("IFT%d", RandomInt(1, 200))}
+
+	n := len(course)
+
+	return course[rand.Intn(n)]
+}
+
+func RandomInt(min, max int64) int64 {
+	return min + rand.Int63n(max-min+1)
 }
