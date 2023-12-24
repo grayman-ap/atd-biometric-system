@@ -9,7 +9,7 @@ import (
 type Querier interface {
 	CreateStudent(ctx context.Context, arg CreateStudentParams) (Student, error)
 	DeleteStudent(ctx context.Context, studentID string) error
-	GetStudent(ctx context.Context, limit int32) (Student, error)
+	GetStudent(ctx context.Context, studentID string) (Student, error)
 	ListStudents(ctx context.Context, arg ListStudentsParams) ([]Student, error)
 	UpdateStudent(ctx context.Context, arg UpdateStudentParams) (Student, error)
 }

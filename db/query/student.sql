@@ -10,7 +10,7 @@ INSERT INTO student (
 
 -- name: GetStudent :one
 SELECT * FROM student
-WHERE student_id = 1 LIMIT $1;
+WHERE student_id = $1;
 
 -- name: ListStudents :many
 SELECT * FROM student 

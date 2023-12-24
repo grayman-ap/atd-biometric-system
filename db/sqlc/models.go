@@ -34,7 +34,6 @@ type Department struct {
 }
 
 type Student struct {
-	ID        int64     `json:"id"`
 	StudentID string    `json:"student_id"`
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`

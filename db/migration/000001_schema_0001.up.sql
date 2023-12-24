@@ -1,5 +1,4 @@
 CREATE TABLE "student" (
-  "id" bigserial NOT NULL,
   "student_id" varchar PRIMARY KEY NOT NULL,
   "first_name" varchar NOT NULL,
   "last_name" varchar NOT NULL,
@@ -40,7 +39,7 @@ CREATE TABLE "attendance" (
   "created_at" timestamptz NOT NULL
 );
 
-CREATE INDEX ON "student" ("id");
+CREATE INDEX ON "student" ("student_id");
 
 CREATE INDEX ON "tutor" ("staff_id");
 

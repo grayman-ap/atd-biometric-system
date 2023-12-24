@@ -15,7 +15,7 @@ INSERT INTO student (
     email
 ) VALUES (
     $1, $2, $3, $4
-) RETURNING id, student_id, first_name, last_name, email, created_at
+) RETURNING student_id, first_name, last_name, email, created_at
 `
 
 type CreateStudentParams struct {
@@ -34,7 +34,6 @@ func (q *Queries) CreateStudent(ctx context.Context, arg CreateStudentParams) (S
 	)
 	var i Student
 	err := row.Scan(
-		&i.ID,
 		&i.StudentID,
 		&i.FirstName,
 		&i.LastName,
@@ -55,15 +54,14 @@ func (q *Queries) DeleteStudent(ctx context.Context, studentID string) error {
 }
 
 const getStudent = `-- name: GetStudent :one
-SELECT id, student_id, first_name, last_name, email, created_at FROM student
-WHERE student_id = 1 LIMIT $1
+SELECT student_id, first_name, last_name, email, created_at FROM student
+WHERE student_id = $1
 `
 
-func (q *Queries) GetStudent(ctx context.Context, limit int32) (Student, error) {
-	row := q.db.QueryRowContext(ctx, getStudent, limit)
+func (q *Queries) GetStudent(ctx context.Context, studentID string) (Student, error) {
+	row := q.db.QueryRowContext(ctx, getStudent, studentID)
 	var i Student
 	err := row.Scan(
-		&i.ID,
 		&i.StudentID,
 		&i.FirstName,
 		&i.LastName,
@@ -74,7 +72,7 @@ func (q *Queries) GetStudent(ctx context.Context, limit int32) (Student, error) 
 }
 
 const listStudents = `-- name: ListStudents :many
-SELECT id, student_id, first_name, last_name, email, created_at FROM student 
+SELECT student_id, first_name, last_name, email, created_at FROM student 
 ORDER BY student_id
 LIMIT $1
 OFFSET $2
@@ -95,7 +93,6 @@ func (q *Queries) ListStudents(ctx context.Context, arg ListStudentsParams) ([]S
 	for rows.Next() {
 		var i Student
 		if err := rows.Scan(
-			&i.ID,
 			&i.StudentID,
 			&i.FirstName,
 			&i.LastName,
@@ -119,7 +116,7 @@ const updateStudent = `-- name: UpdateStudent :one
 UPDATE student
 SET first_name = $2, last_name = $3, email = $4
 WHERE student_id = $1
-RETURNING id, student_id, first_name, last_name, email, created_at
+RETURNING student_id, first_name, last_name, email, created_at
 `
 
 type UpdateStudentParams struct {
@@ -138,7 +135,6 @@ func (q *Queries) UpdateStudent(ctx context.Context, arg UpdateStudentParams) (S
 	)
 	var i Student
 	err := row.Scan(
-		&i.ID,
 		&i.StudentID,
 		&i.FirstName,
 		&i.LastName,
