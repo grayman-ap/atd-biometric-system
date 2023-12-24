@@ -7,9 +7,11 @@ CREATE TABLE "student" (
 );
 
 CREATE TABLE "tutor" (
-  "id" bigserial NOT NULL,
   "staff_id" varchar PRIMARY KEY NOT NULL,
-  "created_at" timestamptz NOT NULL
+  "first_name" varchar NOT NULL,
+  "last_name" varchar NOT NULL,
+  "email" varchar NOT NULL,
+  "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "department" (
@@ -17,7 +19,7 @@ CREATE TABLE "department" (
   "department_name" varchar NOT NULL,
   "student" varchar NOT NULL,
   "tutor" varchar NOT NULL,
-  "created_at" timestamptz NOT NULL
+  "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "course" (
@@ -27,7 +29,7 @@ CREATE TABLE "course" (
   "course_code" varchar PRIMARY KEY NOT NULL,
   "location" varchar NOT NULL,
   "duration" timestamptz NOT NULL DEFAULT '0001-01-01 00:00:00Z',
-  "created_at" timestamptz NOT NULL
+  "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "attendance" (
@@ -36,7 +38,7 @@ CREATE TABLE "attendance" (
   "course_code" varchar NOT NULL,
   "mark_student" bool NOT NULL,
   "last_attendance" timestamptz NOT NULL DEFAULT '0001-01-01 00:00:00Z',
-  "created_at" timestamptz NOT NULL
+  "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE INDEX ON "student" ("student_id");

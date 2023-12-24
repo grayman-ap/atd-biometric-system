@@ -42,7 +42,9 @@ type Student struct {
 }
 
 type Tutor struct {
-	ID        int64     `json:"id"`
 	StaffID   string    `json:"staff_id"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	Email     string    `json:"email"`
 	CreatedAt time.Time `json:"created_at"`
 }
