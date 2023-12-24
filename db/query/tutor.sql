@@ -3,9 +3,10 @@ INSERT INTO tutor (
     staff_id,
     first_name,
     last_name,
-    email
+    email,
+    department
 ) VALUES (
-    $1, $2, $3, $4
+    $1, $2, $3, $4, $5
 ) RETURNING *;
 
 -- name: GetTutor :one
@@ -20,7 +21,7 @@ OFFSET $2;
 
 -- name: UpdateTutor :one
 UPDATE tutor
-SET first_name = $2, last_name = $3, email = $4
+SET first_name = $2, last_name = $3, email = $4, department = $5
 WHERE staff_id = $1
 RETURNING *;
 
